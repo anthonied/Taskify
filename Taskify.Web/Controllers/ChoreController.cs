@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Taskify.Domain;
 using Taskify.Repository.MsSql;
+using Taskify.Web.Models;
 
 namespace Taskify.Web.Controllers
 {
@@ -14,31 +14,34 @@ namespace Taskify.Web.Controllers
 
         public JsonResult Create(ChoreModel model)
         {
-            var repo = new ChoreRepository();
-            repo.Create(model.ToDomain());
-            return new JsonResult
+            using (var repo = new ChoreRepository())
             {
-                Data = new {IsOk = true}
-            };
+                repo.Create(model.ToDomain());
+                return new JsonResult
+                {
+                    Data = new { IsOk = true }
+                };
+            }
         }
-    }
 
-    public class ChoreModel
-    {
-        public string Name { get; set; }
-        public string Requirement { get; set; }
-        public DateTime Deadline { get; set; }
-        public string Status { get; set; }
-
-        public Chore ToDomain()
+        public ActionResult Index()
         {
-            return new Chore
+            using (var repo = new ChoreRepository())
             {
-                Name = Name,
-                Requirement = Requirement,
-                Deadline = Deadline,
-                Status = (ChoreStatus)Enum.Parse(typeof(ChoreStatus), Status)
-            };
+                var chores = repo.GetMany();
+                var model = chores.Select(ChoreListModel.FromDomain);
+                return View(model);
+            }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            using (var repo = new ChoreRepository())
+            {
+                var chore = repo.GetById(id);
+                var model = ChoreModel.FromDomain(chore);
+                return View(model);
+            }
         }
     }
 }

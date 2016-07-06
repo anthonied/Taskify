@@ -66,7 +66,7 @@ getLastXYears = function (numberOfYears) {
 
 var changeLocation = function (newLocation, prefixRootUrlToGivenNewLocation)
 {
-	busyViewModel.show();
+	
 	setTimeout(function ()
 	{
         location = getLocation(newLocation, prefixRootUrlToGivenNewLocation);

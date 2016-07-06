@@ -2,11 +2,12 @@
 
 namespace Taskify.Domain
 {
- public class Chore
+    public class Chore
     {
-     public string Name { get; set; }
-     public string Requirement { get; set; }
-     public DateTime Deadline { get; set; }
-     public ChoreStatus Status { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Requirement { get; set; }
+        public DateTime Deadline { get; set; }
+        public ChoreStatus Status { get; set; }
     }
 }

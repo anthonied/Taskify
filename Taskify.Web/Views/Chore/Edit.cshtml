@@ -1,0 +1,16 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@section scripts
+{
+    <script>
+        var model = @Html.Raw(Json.Encode(Model))
+        
+    </script>
+}
